@@ -1,0 +1,32 @@
+{
+  "name": "autoUpdateDemo",
+  "version": "1.0.2",
+  "description": "Electron Windows auto update example",
+  "main": "index.js",
+  "productName": "100mubiao",
+  "scripts": {
+    "start": "electron .",
+    "build": "build --win",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "squirrelWindows": {
+      "remoteReleases": "http://localhost:8000/dist/releases/"
+    },
+    "win": {
+      "certificateFile": "./certs/my_signing_key.pfx",
+      "certificatePassword": ""
+    }
+  },
+  "keywords": [
+    "Electron",
+    "Windows",
+    "autoupdate"
+  ],
+  "author": "nick",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^1.4.13",
+    "electron-builder": "^11.2.3"
+  }
+}
