@@ -2,7 +2,7 @@
 'use strict'
 
 
- const electron = require('electron')
+const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const autoUpdater = require("electron").autoUpdater
@@ -16,28 +16,34 @@ class AppUpdater {
 
     const version = app.getVersion();
     autoUpdater.addListener("update-available", (event) => {
-      console.log("A new update is available")
+         window.webContents.executeJavaScript("console.log('A new update is available');");
+
     })
     autoUpdater.addListener("update-downloaded", (event, releaseNotes, releaseName, releaseDate, updateURL) => {
-      notify("A new update is ready to install", 'Version ${releaseName} is downloaded and will be automatically installed on Quit');
 
+     window.webContents.executeJavaScript("alert('新版本已经下载，点击确定开始安装更新！');");
       autoUpdater.quitAndInstall();
     })
     autoUpdater.addListener("error", (error) => {
       console.log(error)
+       window.webContents.executeJavaScript("console.log(error);");
     })
     autoUpdater.addListener("checking-for-update", (event) => {
+       window.webContents.executeJavaScript("console.log('checking-for-update');");
       console.log("checking-for-update")
     })
     autoUpdater.addListener("update-not-available", () => {
       console.log("update-not-available")
+      window.webContents.executeJavaScript("console.log('update-not-available');");
+
     })
     autoUpdater.setFeedURL('http://localhost:8000/dist/releases/')
 
     window.webContents.once("did-frame-finish-load", (event) => {
 
        if(squirrelEvent!='--squirrel-firstrun'){
-          console.log("adsfas");
+          console.log("update-check-start");
+           window.webContents.executeJavaScript("console.log('update-check-start');");
           autoUpdater.checkForUpdates();
         }
     })
@@ -137,8 +143,12 @@ app.on('ready', function() {
 
       visible: true
   });
-    mainWindow.webContents.openDevTools()
-  new AppUpdater(mainWindow);
+mainWindow.webContents.openDevTools()
+mainWindow.webContents.on('did-finish-load', function() {
+    new AppUpdater(mainWindow);
+
+});
+
 
   var file = 'file://' + __dirname + '/index.html';
   mainWindow.loadURL(file);

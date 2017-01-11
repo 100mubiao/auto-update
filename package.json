@@ -2,7 +2,7 @@
   "name": "autoUpdateDemo",
   "version": "1.0.2",
   "description": "Electron Windows auto update example",
-  "main": "index.js",
+  "main": "main.js",
   "productName": "100mubiao",
   "scripts": {
     "start": "electron .",
